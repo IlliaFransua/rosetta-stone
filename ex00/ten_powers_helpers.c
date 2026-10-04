@@ -40,3 +40,37 @@ int	ft_get_ten_power(t_node *dict, t_word_node **words_head, char *num, int i)
 	}
 	return (1);
 }
+
+int	ft_get_hundreds(t_node *dict, t_word_node **words_head, char digit)
+{
+	char	key[2];
+	
+	if (digit == '0')
+		return (1);
+	if (!ft_push_front(words_head, ft_search_dict(dict, "100")))
+		return (0);
+	key[0] = digit;
+	key[1] = '\0';
+	if (!ft_push_front(words_head, ft_search_dict(dict, key)))
+		return (0);
+	return (1);
+}
+
+int	ft_get_tens(t_node *dict, t_word_node **words_head, char ten, char unit)
+{
+	char	key[3];
+
+	if (ten == '0')
+		return (1);
+	if (ten == '1')
+	{
+		key[0] = '1';
+		key[1] = unit;
+		key[2] = '\0';
+		return (ft_push_front(words_head, ft_search_dict(dict, key)));
+	}
+	key[0] = ten;
+	key[1] = '0';
+	key[2] = '\0';
+	return (ft_push_front(words_head, ft_search_dict(dict, key)));
+}

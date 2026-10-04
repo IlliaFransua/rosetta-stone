@@ -32,38 +32,17 @@ void	ft_print_words(t_word_node *words_head)
 	}
 }
 
-int	ft_get_hundreds(t_node *dict, t_word_node **words_head, char digit)
+void	ft_cleanup_word_list(t_word_node *words_head)
 {
-	char	key[2];
-	
-	if (digit == '0')
-		return (1);
-	if (!ft_push_front(words_head, ft_search_dict(dict, "100")))
-		return (0);
-	key[0] = digit;
-	key[1] = '\0';
-	if (!ft_push_front(words_head, ft_search_dict(dict, key)))
-		return (0);
-	return (1);
-}
+	t_word_node	*curr_node;
 
-int	ft_get_tens(t_node *dict, t_word_node **words_head, char ten, char unit)
-{
-	char	key[3];
-
-	if (ten == '0')
-		return (1);
-	if (ten == '1')
+	while (words_head != NULL)
 	{
-		key[0] = '1';
-		key[1] = unit;
-		key[2] = '\0';
-		return (ft_push_front(words_head, ft_search_dict(dict, key)));
+		curr_node = words_head->next;
+		free(words_head);
+		words_head = curr_node;
 	}
-	key[0] = ten;
-	key[1] = '0';
-	key[2] = '\0';
-	return (ft_push_front(words_head, ft_search_dict(dict, key)));
+	return ;
 }
 
 int	ft_get_units(t_node *dict, t_word_node **words_head, char *num, int pos)

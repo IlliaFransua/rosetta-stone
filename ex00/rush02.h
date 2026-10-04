@@ -45,6 +45,7 @@ int	ft_get_hundreds(t_node *dictionary, t_word_node **words_head
 	, char digit);
 int	ft_get_units(t_node *dict, t_word_node **words_head, char *num, int pos);
 int	ft_get_ten_power(t_node *dict, t_word_node **words_head, char *num, int i);
+void	ft_cleanup_word_list(t_word_node *words_head);
 
 
 #endif

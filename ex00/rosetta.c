@@ -6,8 +6,6 @@ static void	ft_cleanup(int fd, t_node *dictionary)
 	t_node	*node_to_clean;
 
 	// ALSO CLEAN NUM AND EVERYTHING ELSE UP TO THE END
-	// ALSO CHECK ALL STRDUP STRCPY STRNDUP
-	// CLEANUP THE WORDS LIST!!!
 
 	curr_node = dictionary;
 	while (curr_node != NULL)
@@ -58,17 +56,21 @@ static int	ft_convert_number(char *clean_num, t_node *dictionary)
 	i = 0;
 	while (i < len)
 	{
-		ft_get_number(clean_num, dictionary, i, &words_head);
+		if (!ft_get_number(clean_num, dictionary, i, &words_head))
+		{
+			ft_cleanup_word_list(words_head);
+			return (0);
+		}
 		i++;
 	}
 	ft_print_words(words_head);
-	free(words_head);			// WATCH OUT FOR FREEING ON ERROR TOO!!
+	ft_cleanup_word_list(words_head);
 	return (1);
 }
 
 void	ft_convert_number_rosetta(char *filename, char *num)
 {
-    char	*clean_num = "1000000";
+    char	*clean_num = "1456201";
 	int	fd;
 	t_node	*dictionary;
 
@@ -90,7 +92,7 @@ void	ft_convert_number_rosetta(char *filename, char *num)
 			ft_putstr("Dict Error\n");
 	}
 	else
-		ft_putstr("Dict Error\n"); // AND CLEAN RESOURCES
+		ft_putstr("Dict Error\n");
 	ft_cleanup(fd, dictionary);
 	return ;
 }
