@@ -1,10 +1,5 @@
 #include "rush02.h"
 
-int is_space(char c)
-{
-	return (c == ' ' || c == '\t' || c == '\n');
-}
-
 char *clean_number(char *str)
 {
 	int i;

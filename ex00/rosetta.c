@@ -1,34 +1,34 @@
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "rush02.h"
 
-static void	ft_cleanup(int fd, t_node *dictionary)
+void cleanup(int fd, t_node *dictionary)
 {
-	t_node	*curr_node;
-	t_node	*node_to_clean;
-
-	// ALSO CLEAN NUM AND EVERYTHING ELSE UP TO THE END
+	t_node *curr_node;
+	t_node *node_to_clean;
 
 	curr_node = dictionary;
-	while (curr_node != NULL)
-	{
+	while (curr_node != NULL) {
 		node_to_clean = curr_node;
 		curr_node = curr_node->next;
 		free(node_to_clean->dict_entry.key);
 		free(node_to_clean->dict_entry.value);
 		free(node_to_clean);
 	}
-	close(fd);
-	return ;
+	if (fd >= 0)
+		close(fd);
 }
 
-static int	ft_get_number(char *num, t_node *dictionary, int i
-	, t_word_node **words_head) 
+static int get_number(char *num, t_node *dictionary, int i,
+					  t_word_node **words_head)
 {
-	int	relative_pos;
-	int	pos;
+	int relative_pos;
+	int pos;
 
-	pos = ft_strlen(num) - i - 1;
+	pos = len(num) - i - 1;
 	relative_pos = i % 3;
-	if (relative_pos == 0 && i > 0)
+	if (relative_pos == 0 && i > 0) // HZ
 	{
 		if (!ft_get_ten_power(dictionary, words_head, num, i))
 			return (0);
@@ -36,25 +36,23 @@ static int	ft_get_number(char *num, t_node *dictionary, int i
 	if (relative_pos == 2)
 		return (ft_get_hundreds(dictionary, words_head, num[pos]));
 	if (relative_pos == 1)
-		return(ft_get_tens(dictionary, words_head, num[pos], num[pos + 1]));
+		return (ft_get_tens(dictionary, words_head, num[pos], num[pos + 1]));
 	if (relative_pos == 0)
-		return(ft_get_units(dictionary, words_head, num, pos));
+		return (ft_get_units(dictionary, words_head, num, pos));
 	return (1);
 }
 
-static int	ft_convert_number(char *clean_num, t_node *dictionary)
+static int convert_num_to_words(char *clean_num, t_node *dictionary)
 {
-	int	len;
-	t_word_node	*words_head;
-	int	i;
+	int size;
+	t_word_node *words_head;
+	int i;
 
 	words_head = NULL;
-	len = ft_strlen(clean_num);
+	size = len(clean_num);
 	i = 0;
-	while (i < len)
-	{
-		if (!ft_get_number(clean_num, dictionary, i, &words_head))
-		{
+	while (i < size) {
+		if (!get_number(clean_num, dictionary, i, &words_head)) {
 			ft_cleanup_word_list(words_head);
 			return (0);
 		}
@@ -65,31 +63,27 @@ static int	ft_convert_number(char *clean_num, t_node *dictionary)
 	return (1);
 }
 
-void	ft_convert_number_rosetta(char *filename, char *num)
+void convert_number(char *filename, char *num)
 {
-    char	*clean_num;
-	int	fd;
-	t_node	*dictionary;
+	char *clean_num;
+	int fd;
+	t_node *dictionary;
 
-	// clean_num = ft_validate_number(num);
-	// if (!clean_num)
-	// {
-	// 	ft_putstr("Error\n");
-	// 	return ;
-	// }
-	fd = open(filename, O_RDONLY);
-    if (fd < 0)
-    {
-		ft_putstr("Dict Error\n");
-		return ;
-    }
-	if (ft_parse_dictionary(fd, &dictionary))
-	{
-		if (!ft_convert_number(clean_num, dictionary))
-			ft_putstr("Dict Error\n");
+	dictionary = NULL;
+	clean_num = clean_number(num);
+	if (!clean_num) {
+		print("Error\n");
+		return;
 	}
-	else
-		ft_putstr("Dict Error\n");
-	ft_cleanup(fd, dictionary);
-	return ;
+	fd = open(filename, O_RDONLY);
+	if (fd < 0) {
+		print("Dict Error\n");
+		return;
+	}
+	if (parse_dictionary(fd, &dictionary)) {
+		if (!convert_num_to_words(clean_num, dictionary))
+			print("Dict Error\n");
+	} else
+		print("Dict Error\n");
+	cleanup(fd, dictionary);
 }
