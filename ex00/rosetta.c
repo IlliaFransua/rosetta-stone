@@ -32,11 +32,11 @@ static int	ft_get_number(char *num, t_node *dictionary, int i
 
 	pos = ft_strlen(num) - i - 1;
 	relative_pos = i % 3;
-	// if (relative_pos == 0 && i > 0)
-	// {
-	// 	if (!ft_get_ten_power(dictionary, words_head, num, i))
-	// 		return (0);
-	// }
+	if (relative_pos == 0 && i > 0)
+	{
+		if (!ft_get_ten_power(dictionary, words_head, num, i))
+			return (0);
+	}
 	if (relative_pos == 2)
 		return (ft_get_hundreds(dictionary, words_head, num[pos]));
 	if (relative_pos == 1)
@@ -55,8 +55,6 @@ static int	ft_convert_number(char *clean_num, t_node *dictionary)
 
 	words_head = NULL;
 	len = ft_strlen(clean_num);
-	//max_word_len = (len / 3) * 5 + len % 3 + 1;
-	// new_node = (t_node *) malloc(sizeof(t_node));
 	i = 0;
 	while (i < len)
 	{
@@ -70,7 +68,7 @@ static int	ft_convert_number(char *clean_num, t_node *dictionary)
 
 void	ft_convert_number_rosetta(char *filename, char *num)
 {
-    char	*clean_num = "234";
+    char	*clean_num = "1234";
 	int	fd;
 	t_node	*dictionary;
 
