@@ -1,16 +1,15 @@
 #include "rush02.h"
 
-#include <stdio.h>
-
-static int ft_read_line(int fd, char *buffer)
+static int	ft_read_line(int fd, char *buffer)
 {
 	int i;
-	int t;
-	char c;
+	int	t;
+	char	c;
 
 	i = 0;
 	t = read(fd, &c, 1);
-	while (t > 0 && c != '\n') {
+	while (t > 0 && c != '\n')
+	{
 		buffer[i] = c;
 		i++;
 		t = read(fd, &c, 1);
@@ -23,24 +22,16 @@ static int ft_read_line(int fd, char *buffer)
 	return (1);
 }
 
-// static void	ft_append_node(t_node *new_node, t_node **curr_node)
-// {
-// 	new_node->next = NULL;
-// 	if (curr_node)
-// 		curr_node->next = new_node;
-// 	curr_node = new_node;
-// }
-
-static int ft_get_last_val_char(char *buffer)
+static int	ft_get_last_val_char(char *buffer)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (buffer[i] >= ' ' && buffer[i] <= '~')
+	while(buffer[i] >= ' ' && buffer[i] <= '~')
 		i++;
 	if (buffer[i] != '\0')
 		return (0);
-	while (i > 0 && buffer[i - 1] == ' ')
+	while(i > 0 && buffer[i - 1] == ' ')
 		i--;
 	return (i);
 }
@@ -50,16 +41,16 @@ static int ft_parse_line(char *buffer, t_node *new_node)
 	int i;
 	int key_len;
 	int start_val;
-	int val_len;
+	int	val_len;
 
 	i = 0;
 	while (ft_is_numeric(buffer[i]))
 		i++;
-	key_len = i;
+	key_len = i;				
 	while (buffer[i] == ' ')
 		i++;
-	if (key_len == 0 || buffer[i++] != ':')
-		return (0); // ERROR PARSING DICT
+	if (key_len == 0 || buffer [i++] != ':')
+		return (0);				// ERROR PARSING DICT
 	while (buffer[i] == ' ')
 		i++;
 	start_val = i;
@@ -68,38 +59,57 @@ static int ft_parse_line(char *buffer, t_node *new_node)
 		return (0);
 	new_node->dict_entry.key = ft_strndup(buffer, key_len);
 	new_node->dict_entry.value = ft_strndup(&buffer[start_val], val_len);
-	if (!new_node->dict_entry.key || !new_node->dict_entry.value)
+	if(!new_node->dict_entry.key || !new_node->dict_entry.value)
 		return (0);
 	return (1);
 }
 
-void print_struct(t_node *dict)
+char *	ft_search_dict(t_node *dict, char *key)
 {
-	t_node *curr_node;
+	t_node	*curr_node;
 
 	curr_node = dict;
-	while (curr_node != NULL) {
-		printf("%s\n", curr_node->dict_entry.key);
-		printf("%s\n", curr_node->dict_entry.value);
+	while(curr_node != NULL)
+	{
+		if (ft_strcmp(curr_node->dict_entry.key, key) == 0)
+			return (curr_node->dict_entry.value);
+		curr_node = curr_node->next;
+	}
+	return (NULL);
+}
+
+
+// DELETE THIS FUNCTION******************************************************************
+void	print_struct(t_node *dict)
+{
+	t_node	*curr_node;
+
+	curr_node = dict;
+	while (curr_node != NULL)
+	{
+		ft_putstr(curr_node->dict_entry.key);
+		ft_putstr(curr_node->dict_entry.value);
 		curr_node = curr_node->next;
 	}
 }
 
-int ft_parse_dictionary(int fd, t_node **head_dict)
+int	ft_parse_dictionary(int fd, t_node **head_dict)
 {
-	t_node *curr_node;
-	t_node *new_node;
-	char buffer[4096];
+	t_node	*curr_node;
+	t_node	*new_node;
+	char	buffer[4096];
 
 	*head_dict = NULL;
 	curr_node = NULL;
-	while (ft_read_line(fd, buffer) > 0) {
+	while (ft_read_line(fd, buffer) > 0)
+	{
 		if (buffer[0] == '\0')
-			continue;
-		new_node = (t_node *)malloc(sizeof(t_node));
+			continue ;
+		new_node = (t_node *) malloc(sizeof(t_node));
 		if (!new_node)
 			return (0);
-		if (!ft_parse_line(buffer, new_node)) {
+		if (!ft_parse_line(buffer, new_node))
+		{
 			free(new_node);
 			return (0);
 		}
@@ -110,45 +120,5 @@ int ft_parse_dictionary(int fd, t_node **head_dict)
 			curr_node->next = new_node;
 		curr_node = new_node;
 	}
-	print_struct(*head_dict); // DELETE
 	return (1);
 }
-
-/*
-t_node	*ft_parse_dictionary(int fd)
-{	// WHERE DO I CLEAN RESOURCES??
-char	c;
-t_node	*head_dict;
-t_node	*curr_node;
-t_node	*new_node;
-char	buffer[4096];
-
-head_dict = NULL;
-curr_node = NULL;
-while (ft_read_line(fd, buffer) > 0)
-{
-	if (buffer[0] == '\0')
-		continue ;
-	new_node = (t_node *) malloc(sizeof(t_node));
-
-
-}
-
-
-head_dict = (t_node *) malloc(sizeof(t_node));
-if (!head_dict)
-	return (NULL);			// CHECK
-curr_node = head_dict;
-while (ft_read_line(fd, buffer) > 0)
-{
-	if (buffer[0] == '\0')
-		continue ;
-	new_node = (t_node *) malloc(sizeof(t_node));
-	if (!new_node)
-		return (NULL);
-	if (!ft_parse_line(buffer, new_node, curr_node))
-		return (NULL);
-	printf("%s\n", buffer);
-}
-return (head_dict);
-*/
