@@ -17,13 +17,18 @@ int	ft_push_front(t_word_node **words_head, char *str)
 
 void	ft_print_words(t_word_node *words_head)
 {
+	int i;
 	t_word_node	*curr_node;
 
+	i = 0;
 	curr_node = words_head;
 	while (curr_node != NULL)
 	{
+		if (i > 0)
+			ft_putstr(" ");
 		ft_putstr(curr_node->str);
 		curr_node = curr_node->next;
+		i++;
 	}
 }
 
@@ -38,13 +43,9 @@ char	*ft_make_key(char *buf, char c1, char c2)
 
 int	ft_get_hundreds(t_node *dict, t_word_node **words_head, char digit)
 {
-	char	*word;
-	char	*key[2];
+	char	key[2];
 	
-	word = ft_search_dict(dict, "100");
-	if (!word)
-		return (0);
-	if (!ft_push_front(words_head, word));
+	if (!ft_push_front(words_head, ft_search_dict(dict, "100")))
 		return (0);
 	key[0] = digit;
 	key[1] = '\0';
