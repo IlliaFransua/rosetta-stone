@@ -36,10 +36,10 @@ void ft_convert_number_rosetta(char *filename, char *num) {
     return;
   }
   if (ft_parse_dictionary(fd, &dictionary))
-    ft_putstr("OK");
+    ft_putstr("OK\n");
   else
     ft_putstr("Dict Error\n"); // AND CLEAN RESOURCES
-  printf("%s\n", num);
+  printf("%s\n", clean_num);
   ft_cleanup(fd, dictionary);
   return;
 }
