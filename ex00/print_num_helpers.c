@@ -36,6 +36,8 @@ int	ft_get_hundreds(t_node *dict, t_word_node **words_head, char digit)
 {
 	char	key[2];
 	
+	if (digit == '0')
+		return (1);
 	if (!ft_push_front(words_head, ft_search_dict(dict, "100")))
 		return (0);
 	key[0] = digit;

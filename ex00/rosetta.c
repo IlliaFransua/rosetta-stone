@@ -68,7 +68,7 @@ static int	ft_convert_number(char *clean_num, t_node *dictionary)
 
 void	ft_convert_number_rosetta(char *filename, char *num)
 {
-    char	*clean_num = "1234";
+    char	*clean_num = "1000000";
 	int	fd;
 	t_node	*dictionary;
 
