@@ -1,5 +1,7 @@
 #include "rush02.h"
 
+#include <stdio.h>
+
 static int	ft_read_line(int fd, char *buffer)
 {
 	int i;
@@ -22,12 +24,13 @@ static int	ft_read_line(int fd, char *buffer)
 	return (1);
 }
 
-static void	ft_append_node(t_node *new_node, t_node *curr_node)
-{
-	new_node->next = NULL;
-	curr_node->next = new_node;
-	curr_node = new_node;
-}
+// static void	ft_append_node(t_node *new_node, t_node **curr_node)
+// {
+// 	new_node->next = NULL;
+// 	if (curr_node)
+// 		curr_node->next = new_node;
+// 	curr_node = new_node;
+// }
 
 static int	ft_get_last_val_char(char *buffer)
 {
@@ -43,7 +46,7 @@ static int	ft_get_last_val_char(char *buffer)
 	return (i);
 }
 
-static int ft_parse_line(char *buffer, t_node *new_node, t_node *curr_node)
+static int ft_parse_line(char *buffer, t_node *new_node)
 {
 	int i;
 	int key_len;
@@ -68,11 +71,58 @@ static int ft_parse_line(char *buffer, t_node *new_node, t_node *curr_node)
 	new_node->dict_entry.value = ft_strndup(&buffer[start_val], val_len);
 	if(!new_node->dict_entry.key || !new_node->dict_entry.value)
 		return (0);
-	ft_append_node(new_node, curr_node);
 	return (1);
 }
 
-t_node	*ft_parse_dictionary(int fd)
+void	print_struct(t_node *dict)
+{
+	t_node	*curr_node;
+
+	curr_node = dict;
+	while (curr_node != NULL)
+	{
+		printf("%s\n", curr_node->dict_entry.key);
+		printf("%s\n", curr_node->dict_entry.value);
+		curr_node = curr_node->next;
+	}
+}
+
+int	ft_parse_dictionary(int fd, t_node **head_dict)
+{
+	t_node	*curr_node;
+	t_node	*new_node;
+	char	buffer[4096];
+
+	*head_dict = NULL;
+	curr_node = NULL;
+	while (ft_read_line(fd, buffer) > 0)
+	{
+		if (buffer[0] == '\0')
+			continue ;
+		new_node = (t_node *) malloc(sizeof(t_node));
+		if (!new_node)
+			return (0);
+		if (!ft_parse_line(buffer, new_node))
+		{
+			free(new_node);
+			return (0);
+		}
+		new_node->next = NULL;
+		if (!*head_dict)
+			*head_dict = new_node;
+		else
+			curr_node->next = new_node;
+		curr_node = new_node;
+	}
+	print_struct(*head_dict);			// DELETE
+	return (1);
+}
+
+
+
+
+	/*
+	t_node	*ft_parse_dictionary(int fd)
 {	// WHERE DO I CLEAN RESOURCES??
 	char	c;
 	t_node	*head_dict;
@@ -80,7 +130,19 @@ t_node	*ft_parse_dictionary(int fd)
 	t_node	*new_node;
 	char	buffer[4096];
 
-	head_dict = (t_node *) malloc(sizeof(t_node *));
+	head_dict = NULL;
+	curr_node = NULL;
+	while (ft_read_line(fd, buffer) > 0)
+	{
+		if (buffer[0] == '\0')
+			continue ;
+		new_node = (t_node *) malloc(sizeof(t_node));
+		
+
+	}
+	
+	
+	head_dict = (t_node *) malloc(sizeof(t_node));
 	if (!head_dict)
 		return (NULL);			// CHECK
 	curr_node = head_dict;
@@ -88,7 +150,7 @@ t_node	*ft_parse_dictionary(int fd)
 	{
 		if (buffer[0] == '\0')
 			continue ;
-		new_node = (t_node *) malloc(sizeof(t_node *));
+		new_node = (t_node *) malloc(sizeof(t_node));
 		if (!new_node)
 			return (NULL);
 		if (!ft_parse_line(buffer, new_node, curr_node))
@@ -96,4 +158,4 @@ t_node	*ft_parse_dictionary(int fd)
 		printf("%s\n", buffer);
 	}
 	return (head_dict);
-}
+	*/

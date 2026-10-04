@@ -1,5 +1,7 @@
 #include "rush02.h"
 
+#include <stdio.h>
+
 // static void	ft_get_args(int argc, char **argv, char **num, char **filename)
 // {
 // 	if (argc == 3)
@@ -42,7 +44,7 @@ static void	ft_cleanup(int fd, t_node *dictionary)
 
 void	ft_convert_number_rosetta(char *filename, char *num)
 {
-    char    *clean_num;
+    //char    *clean_num;
 	int	fd;
 	t_node	*dictionary;
 
@@ -58,11 +60,17 @@ void	ft_convert_number_rosetta(char *filename, char *num)
 		ft_putstr("Dict Error\n");
 		return ;
     }
-	dictionary = ft_parse_dictionary(fd);
-	if (dictionary)
-		ft_convert_number(clean_num, dictionary);
+	if (ft_parse_dictionary(fd, &dictionary))
+		ft_putstr("OK");
+	// ft_convert_number(clean_num, dictionary);
 	else
 		ft_putstr("Dict Error\n"); // AND CLEAN RESOURCES
+	printf("%s\n", num);
+	// dictionary = ft_parse_dictionary(fd);
+	// if (dictionary)
+	// 	ft_convert_number(clean_num, dictionary);
+	// else
+	// 	ft_putstr("Dict Error\n"); // AND CLEAN RESOURCES
 	ft_cleanup(fd, dictionary);
 	return ;
 }

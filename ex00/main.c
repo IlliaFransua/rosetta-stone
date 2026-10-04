@@ -12,7 +12,7 @@ int	main(int argc, char **argv)
     // else
     //     ft_convert_number_rosetta(argv[1], argv[2]);
 	// return (0);
-
+	if (argc >= 1)		// DELETE
 	ft_convert_number_rosetta(FILENAME_DICT, argv[1]);
 	return (0);
 }
