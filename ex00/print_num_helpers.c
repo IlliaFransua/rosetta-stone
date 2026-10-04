@@ -32,15 +32,6 @@ void	ft_print_words(t_word_node *words_head)
 	}
 }
 
-char	*ft_make_key(char *buf, char c1, char c2)
-{
-	buf[0] = c1;
-	buf[1] = c2;
-	if (c2 != '\0')
-		buf[2] = '\0';
-	return (buf);
-}
-
 int	ft_get_hundreds(t_node *dict, t_word_node **words_head, char digit)
 {
 	char	key[2];
@@ -89,3 +80,28 @@ int	ft_get_units(t_node *dict, t_word_node **words_head, char *num, int pos)
 	key[1] = '\0';
 	return (ft_push_front(words_head, ft_search_dict(dict, key)));
 }
+
+// int	ft_get_ten_power(t_node *dict, t_word_node **words_head, char *num, int i)
+// {
+// 	char	key[80];
+// 	int	pos;
+
+// 	if (i == 0 || (i % 3) != 0)
+// 		return (1);
+// 	pos = ft_strlen(num) - i - 1;
+
+
+
+
+// 	if (num[pos] == '0')
+// 	{
+// 		if (ft_strlen(num) == 1)
+// 			return (ft_push_front(words_head, ft_search_dict(dict, "0")));
+// 		return (1);
+// 	}
+// 	if (pos > 0 && num[pos - 1] == '1')
+// 		return (1);
+// 	key[0] = num[pos];
+// 	key[1] = '\0';
+// 	return (ft_push_front(words_head, ft_search_dict(dict, key)));
+// }

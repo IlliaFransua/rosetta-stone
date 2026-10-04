@@ -41,10 +41,10 @@ int	ft_parse_dictionary(int fd, t_node **head_dict);
 char	*ft_search_dict(t_node *dict, char *key);
 int	ft_push_front(t_word_node **words_head, char *str);
 void	ft_print_words(t_word_node *words_head);
-char	*ft_make_key(char *buf, char c1, char c2);
 int	ft_get_hundreds(t_node *dictionary, t_word_node **words_head
 	, char digit);
 int	ft_get_units(t_node *dict, t_word_node **words_head, char *num, int pos);
+int	ft_get_ten_power(t_node *dict, t_word_node **words_head, char *num, int pos);
 
 
 #endif

@@ -32,13 +32,18 @@ static int	ft_get_number(char *num, t_node *dictionary, int i
 
 	pos = ft_strlen(num) - i - 1;
 	relative_pos = i % 3;
+	// if (relative_pos == 0 && i > 0)
+	// {
+	// 	if (!ft_get_ten_power(dictionary, words_head, num, i))
+	// 		return (0);
+	// }
 	if (relative_pos == 2)
 		return (ft_get_hundreds(dictionary, words_head, num[pos]));
 	if (relative_pos == 1)
 		return(ft_get_tens(dictionary, words_head, num[pos], num[pos + 1]));
 	if (relative_pos == 0)
 		return(ft_get_units(dictionary, words_head, num, pos));
-	
+	return (1);
 }
 
 static int	ft_convert_number(char *clean_num, t_node *dictionary)

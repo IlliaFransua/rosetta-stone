@@ -78,21 +78,6 @@ char *	ft_search_dict(t_node *dict, char *key)
 	return (NULL);
 }
 
-
-// DELETE THIS FUNCTION******************************************************************
-void	print_struct(t_node *dict)
-{
-	t_node	*curr_node;
-
-	curr_node = dict;
-	while (curr_node != NULL)
-	{
-		ft_putstr(curr_node->dict_entry.key);
-		ft_putstr(curr_node->dict_entry.value);
-		curr_node = curr_node->next;
-	}
-}
-
 int	ft_parse_dictionary(int fd, t_node **head_dict)
 {
 	t_node	*curr_node;
