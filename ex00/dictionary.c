@@ -99,7 +99,7 @@ char *ft_search_dict(t_node *dict, char *key)
 
 	curr_node = dict;
 	while (curr_node != NULL) {
-		if (ft_strcmp(curr_node->dict_entry.key, key) == 0)
+		if (equals(curr_node->dict_entry.key, key) == 0)
 			return (curr_node->dict_entry.value);
 		curr_node = curr_node->next;
 	}

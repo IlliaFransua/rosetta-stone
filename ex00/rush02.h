@@ -38,8 +38,7 @@ int is_printable(char c);
 
 char *copy_str(char *src);
 char *copy_str_n(char *src, int n);
-
-int ft_strcmp(char *s1, char *s2);
+int equals(char *s1, char *s2);
 
 void convert_number(char *filename, char *num);
 int parse_dictionary(int fd, t_node **head_dict);
