@@ -14,13 +14,13 @@
 
 #define FILENAME_DICT "numbers.dict"
 typedef struct s_dict {
-  char *key;
-  char *value;
+	char *key;
+	char *value;
 } t_dict;
 
 typedef struct s_node {
-  t_dict dict_entry;
-  struct s_node *next;
+	t_dict dict_entry;
+	struct s_node *next;
 } t_node;
 
 void ft_putstr(char *str);
