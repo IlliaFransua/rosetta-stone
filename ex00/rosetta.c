@@ -25,8 +25,6 @@ static int	ft_get_number(char *num, t_node *dictionary, int i
 {
 	int	relative_pos;
 	int	pos;
-	char	*word;
-	char	key_dict[3];
 
 	pos = ft_strlen(num) - i - 1;
 	relative_pos = i % 3;
@@ -48,7 +46,6 @@ static int	ft_convert_number(char *clean_num, t_node *dictionary)
 {
 	int	len;
 	t_word_node	*words_head;
-	int	max_word_len;
 	int	i;
 
 	words_head = NULL;
@@ -70,7 +67,7 @@ static int	ft_convert_number(char *clean_num, t_node *dictionary)
 
 void	ft_convert_number_rosetta(char *filename, char *num)
 {
-    char	*clean_num = "1456201";
+    char	*clean_num;
 	int	fd;
 	t_node	*dictionary;
 
